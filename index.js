@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("config");
 const app = express();
 require('dotenv').config();
 
@@ -20,8 +19,9 @@ mongoose
   .catch(err => console.log(err));
 
 //routes
-app.use('/api/items', require('./routes/items'));
-
+app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/teams', require('./routes/teams'));
 
 const port = process.env.PORT || 5000;
 
