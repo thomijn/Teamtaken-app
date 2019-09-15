@@ -20,7 +20,6 @@ const TaskSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'team'
         },
-        required: true
     },
     executors: {
         type: [{

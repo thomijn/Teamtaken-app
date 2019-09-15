@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const exphbs = require('express-handlebars');
 require('dotenv').config();
 
 //bodyparser
@@ -18,10 +19,20 @@ mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch(err => console.log(err));
 
-//routes
-app.use('/api/users', require('./routes/users'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/teams', require('./routes/teams'));
+// Register handlebars view engine
+app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+// Use handlebars view engine
+app.set('view engine', 'hbs');
+
+// Routes
+app.use('/users', require('./api/routes/users'));
+app.use('/auth', require('./api/routes/auth'));
+app.use('/teams', require('./api/routes/teams'));
+app.use('/tasks', require('./api/routes/tasks'));
+
+app.get('/', (req, res) => {
+  res.render('index');
+});
 
 const port = process.env.PORT || 5000;
 

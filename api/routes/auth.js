@@ -32,6 +32,8 @@ router.post("/register", async (req, res) => {
         .then((user) => res.json({ msg: "Team succesfully added", user }))
         .catch(err => res.status(404).send(err))
 
+    res.render('register');
+
 })
 
 //login
