@@ -1,13 +1,14 @@
 <div class="container">
     <div class="row align-items-center justify-content-center">
         <div class="col-sm-4">
-            <form class="form-login" method="POST" action="/auth/register">
+            <form class="form-login" method="post" action="/auth/register">
                 <h1 class="h3 mb-3 font-weight-normal">Registreren</h1>
-                <input type="text" id="inputFirstName" name="firstname" class="form-control" placeholder="Voornaam"
-                    required>
-                <input type="text" id="inputLastname" class="form-control" placeholder="achternaam" required>
+                <input type="text" id="inputFirstName" name="firstname" class="form-control" placeholder="Voonaam" required>
+                <input type="text" id="inputLastName" name="lastname" class="form-control" placeholder="Achternaam" required>
+                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email adres" required>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Wachtwoord" required>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-                <a href="/auth/login">Inloggen</a>
+                <a href="/">Inloggen</a>
             </form>
         </div>
     </div>

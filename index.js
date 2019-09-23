@@ -2,10 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser')
 require('dotenv').config();
 
 //bodyparser
-app.use(express.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 //db config
 const db = process.env.DB_CONNECTION
@@ -29,6 +31,8 @@ app.use('/users', require('./api/routes/users'));
 app.use('/auth', require('./api/routes/auth'));
 app.use('/teams', require('./api/routes/teams'));
 app.use('/tasks', require('./api/routes/tasks'));
+app.use('/home', require('./api/routes/home'));
+
 
 app.get('/', (req, res) => {
   res.render('index');
