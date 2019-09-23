@@ -6,9 +6,12 @@ router.get("/register", (req, res) => {
 })
 
 //registration
-router.post("/register", AuthController.register_a_user )
+router.post("/register", AuthController.register_a_user)
 
 //login
-router.post("/login", AuthController.login_a_user )
+router.post("/login", AuthController.login_a_user)
+
+//logout
+router.get("/logout", AuthController.logout_a_user)
 
 module.exports = router;

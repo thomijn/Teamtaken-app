@@ -3,11 +3,18 @@
         <div class="col-sm-4">
             <form class="form-login" method="post" action="/auth/register">
                 <h1 class="h3 mb-3 font-weight-normal">Registreren</h1>
-                <input type="text" id="inputFirstName" name="firstname" class="form-control" placeholder="Voonaam" required>
-                <input type="text" id="inputLastName" name="lastname" class="form-control" placeholder="Achternaam" required>
-                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email adres" required>
-                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Wachtwoord" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                {{> messages}}
+                <input type="text" id="inputFirstName" name="firstname" class="form-control" placeholder="Voonaam"
+                    required>
+                <input type="text" id="inputLastName" name="lastname" class="form-control" placeholder="Achternaam"
+                    required>
+                <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email adres"
+                    required>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Wachtwoord"
+                    required>
+                <input type="password" id="inputPassword2" name="password2" class="form-control"
+                    placeholder="Wachtwoord opnieuw" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Registreren</button>
                 <a href="/">Inloggen</a>
             </form>
         </div>

@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const verify = require("../middleware/verfiyToken")
+const { ensureAuthenticated } = require('../middleware/verify')
 
-router.get("/", (req, res) => {
+
+router.get("/", ensureAuthenticated, (req, res) => {
     res.render("home")
 })
 

@@ -12,7 +12,6 @@
 
 <body>
 
-    {{#if token}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">TeamTaken</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -23,12 +22,11 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav mr-sm-10 ">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Logout <span class="sr-only">(current)</span></a>
+                    <a href="/auth/logout" class="btn btn-secondary">Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
-    {{/if}}
 
     {{{body}}}
 

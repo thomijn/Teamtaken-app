@@ -1,52 +1,83 @@
-const { registerValidation, loginValidation } = require("../validate/validation")
 const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
 const User = require("../models/User");
+const passport = require('passport');
 
 exports.register_a_user = async (req, res) => {
-    console.log(req.body)
-    // validation
-    // const { error } = registerValidation(req.body)
-    //  if (error) return res.status(400).send(error.details[0].message)
+    const { firstname, lastname, email, password, password2 } = req.body;
+    let errors = [];
 
-    // check if email already exists
-    const emailExist = await User.findOne({ email: req.body.email });
-    if (emailExist) return res.status(400).send("Email already exists.")
+    if (!firstname || !lastname || !email || !password || !password2) {
+        errors.push({ msg: 'Please enter all fields' });
+    }
 
-    //hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    if (password != password2) {
+        errors.push({ msg: 'Passwords do not match' });
+    }
 
-    const user = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: hashedPassword
-    });
+    if (password.length < 6) {
+        errors.push({ msg: 'Password must be at least 6 characters' });
+    }
 
-    user.save()
-        .then((user) => res.redirect("/home").json({ msg: "registered a user", user }).redire)
-        .catch(err => res.status(404).send(err))
+    if (errors.length > 0) {
+        res.render('register', {
+            errors,
+            firstname,
+            lastname,
+            email,
+            password,
+            password2
+        });
+    } else {
+        User.findOne({ email: email }).then(user => {
+            if (user) {
+                errors.push({ msg: 'Email already exists' });
+                res.render('register', {
+                    errors,
+                    firstname,
+                    lastname,
+                    email,
+                    password,
+                    password2
+                });
+            } else {
+                const newUser = new User({
+                    firstname,
+                    lastname,
+                    email,
+                    password
+                });
 
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) throw err;
+                        newUser.password = hash;
+                        newUser
+                            .save()
+                            .then(user => {
+                                req.flash(
+                                    'success_msg',
+                                    'You are now registered and can log in'
+                                );
+                                res.redirect('/');
+                            })
+                            .catch(err => console.log(err));
+                    });
+                });
+            }
+        });
+    }
 }
 
-exports.login_a_user = async (req, res) => {
-    console.log(req.body)
+exports.login_a_user = async (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/home',
+        failureRedirect: '/',
+        failureFlash: true
+    })(req, res, next);
+}
 
-    // validation
-    // const { error } = loginValidation(req.body)
-    // if (error) return res.status(400).send(error.details[0].message)
-
-    //check if email exists
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).send("invalid credentials")
-
-    //valid password
-    const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.status(400).send("invalid credentials")
-
-    //JWT token
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
-    res.header("auth-token", token).redirect("/home")
-
+exports.logout_a_user = async (req, res) => {
+    req.logout();
+    req.flash('success_msg', 'You are logged out');
+    res.redirect('/');
 }
