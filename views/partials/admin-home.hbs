@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row top">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    Nieuwe gebruikers
+                </div>
+                <div class="card-body">
+                    {{#if newUsers}}
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            {{#each newUsers}}
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-6">
+                                        {{this.firstname}} {{this.lastname}}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-light" data-toggle="modal"
+                                            data-target="#exampleModal" data-user-id={{this._id}}>
+                                            Voeg toe aan een team
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            {{/each}}
+                            {{else}}
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <p>Er zijn geen nieuwe gebruikers</p>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> add-to-team-modal}}

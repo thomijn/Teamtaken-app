@@ -24,9 +24,15 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  role: {
+    type: String,
+    enum : ['team-member', 'team-captain', 'admin'],
+    default: 'team-member'
+  },
   team: {
     type: Schema.Types.ObjectId,
-    ref: 'team'
+    ref: 'team',
+    default: null
   }
 });
 

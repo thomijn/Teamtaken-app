@@ -1,1 +1,23 @@
-<h1>Welkom bij de teamtaken app</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">TeamTaken</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-sm-10 ">
+            <li class="nav-item active">
+                <a href="/auth/logout" class="btn btn-secondary">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{{>messages}}
+
+{{#if admin}}
+{{> admin-home}}
+{{else}}
+{{> user-home}}
+{{/if}}

@@ -1,4 +1,6 @@
 const Team = require("../models/Team");
+const User = require("../models/User");
+
 
 exports.get_a_team = async (req, res) => {
     try {
@@ -27,8 +29,15 @@ exports.add_a_team = async (req, res) => {
 
 exports.add_user_to_a_team = async (req, res) => {
     try {
-        await Team.update({ name: req.body.name }, { $push: { members: req.body._id } })
-        res.json({ msg: "User succesfully added to a team" })
+        await Team.updateOne({ name: req.body.name }, { $push: { members: req.body.userId } })
+        const team = await Team.findOne({ name: req.body.name })
+        console.log(team)
+        await User.updateOne({ _id: req.body.userId }, {team: team._id})
+        req.flash(
+            'success_msg',
+            'User succesfully added to a team'
+        );
+        res.redirect('/home')
     }
     catch (err) {
         res.status(400).send(err)

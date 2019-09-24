@@ -52,6 +52,8 @@ app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
 // Use handlebars view engine
 app.set('view engine', 'hbs');
 
+app.use(express.static(__dirname + '/public'));
+
 // Routes
 app.use('/users', require('./api/routes/users'));
 app.use('/auth', require('./api/routes/auth'));

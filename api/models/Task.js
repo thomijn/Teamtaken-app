@@ -29,4 +29,4 @@ const TaskSchema = new Schema({
     }
 });
 
-module.exports = User = mongoose.model("task", TaskSchema);
+module.exports = Task = mongoose.model("task", TaskSchema);
