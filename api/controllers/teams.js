@@ -1,5 +1,6 @@
 const Team = require("../models/Team");
 const User = require("../models/User");
+const Task = require("../models/Task");
 
 
 exports.team = async (req, res) => {
@@ -20,8 +21,11 @@ exports.get_a_team = async (req, res) => {
     try {
         await Team.findById(req.params._id).populate('members')
             .then((team) => {
-                res.render("teams-detail", {
-                    team: team
+                Task.find({ team: req.params._id }).then((tasks) => {
+                    res.render("teams-detail", {
+                        team: team,
+                        tasks: tasks
+                    })
                 })
             })
     }

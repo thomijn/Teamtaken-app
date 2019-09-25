@@ -12,7 +12,8 @@
 </ul>
 
 <div class="container">
-    <div class="row ">
+    <div class="row">
+
         <div class="col-sm-6">
             <div class="card mt-4">
                 <div class="card-header">
@@ -39,10 +40,49 @@
                                 </div>
                             </li>
                             {{/each}}
+                        </ul>
+                    </div>
+                    {{else}}
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <p>dit team heeft nog geen spelers</p>
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card mt-4">
+                <div class="card-header">
+                    Team taken
+                </div>
+                <div class="card-body">
+                    {{#if tasks}}
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            {{#each tasks}}
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-6">
+                                        {{this.title}}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-dark">
+                                            edit
+                                        </button>
+                                        <button type="button" class="btn btn-danger">
+                                            delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            {{/each}}
                             {{else}}
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <p>dit team heeft nog geen spelers</p>
+                                    <p>dit team heeft nog geen taken</p>
                                 </div>
                             </div>
                         </ul>
@@ -51,5 +91,9 @@
                 </div>
             </div>
         </div>
+
+
+
+
     </div>
 </div>
