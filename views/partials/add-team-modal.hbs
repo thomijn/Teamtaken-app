@@ -1,22 +1,19 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="add-team-modal" tabindex="-1" role="dialog" aria-labelledby="add-team-modal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="teams/add/user">
+            <form method="post" action="/teams/add">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Voeg deze gebruiker toe aan team</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Voeg een nieuw team toe</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="userId" value="" />
-                    <select name="_id" class="custom-select" id="inputGroupSelect01">
-                        <option selected>Kies een team...</option>
-                        {{#each teams}}
-                        <option value={{this._id}}>{{this.name}}</option>
-                        {{/each}}
-                    </select>
+                    <div class="form-group">
+                        <label for="name">Naam van het team</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Naam">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>

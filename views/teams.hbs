@@ -1,0 +1,33 @@
+{{> nav}}
+
+{{>messages}}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="/home">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/teams">Teams</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#add-team-modal" href="/add-a-team">Nieuw Team</a>
+    </li>
+</ul>
+
+<div class="container">
+    <div class="row">
+        {{#each teams}}
+        <div class="col-sm-6">
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text">aantal spelers: {{this.members.length}}</p>
+                    <a href="/teams/{{this._id}}" class="btn btn-primary">Ga naar {{this.name}}</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+{{>add-team-modal}}

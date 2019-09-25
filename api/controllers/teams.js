@@ -2,44 +2,88 @@ const Team = require("../models/Team");
 const User = require("../models/User");
 
 
+exports.team = async (req, res) => {
+    try {
+        await Team.find()
+            .then(teams => {
+                res.render("teams", {
+                    teams: teams
+                })
+            })
+    }
+    catch (err) {
+        res.status(400).send("something went wrong")
+    }
+}
+
 exports.get_a_team = async (req, res) => {
     try {
-        const team = await Team.findById(req.params._id).populate('members')
-        res.send(team)
+        await Team.findById(req.params._id).populate('members')
+            .then((team) => {
+                res.render("teams-detail", {
+                    team: team
+                })
+            })
     }
     catch (err) {
         res.status(400).send(err)
     }
 }
 
-exports.add_a_team = async (req, res) => {
-    const team = new Team({
-        name: req.body.name,
-    });
+exports.add_a_team = (req, res) => {
 
-    try {
-        await team.save()
-        res.json({ msg: "Team succesfully added" })
-    }
-    catch (err) {
-        res.status(400).send(err)
-    }
-
+    Team.findOne({ name: req.body.name }).then((team) => {
+        if (team) {
+            req.flash(
+                'error_msg',
+                'Team already exists'
+            );
+            res.redirect('/teams');
+        } else {
+            const team = new Team({
+                name: req.body.name,
+            });
+            try {
+                team.save()
+                    .then(() => {
+                        req.flash(
+                            'success_msg',
+                            'Successfully added a team!'
+                        );
+                        res.redirect('/teams');
+                    })
+            }
+            catch (err) {
+                res.status(400).send(err)
+            }
+        }
+    })
 }
 
 exports.add_user_to_a_team = async (req, res) => {
     try {
-        await Team.updateOne({ name: req.body.name }, { $push: { members: req.body.userId } })
-        const team = await Team.findOne({ name: req.body.name })
-        console.log(team)
-        await User.updateOne({ _id: req.body.userId }, {team: team._id})
-        req.flash(
-            'success_msg',
-            'User succesfully added to a team'
-        );
-        res.redirect('/home')
+        await Team.updateOne({ _id: req.body._id }, { $push: { members: req.body.userId } })
+        await User.updateOne({ _id: req.body.userId }, { team: req.body._id })
+            .then(() => {
+                req.flash(
+                    'success_msg',
+                    'User succesfully added to a team'
+                );
+                res.redirect('/home')
+            })
+            .catch((err) => {
+                req.flash(
+                    'error_msg',
+                    'something went wrong'
+                );
+                res.status(400).redirect('/home')
+            })
     }
     catch (err) {
-        res.status(400).send(err)
+        req.flash(
+            'error_msg',
+            'something went wrong'
+        );
+        res.status(400).redirect('/home')
     }
 }

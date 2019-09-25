@@ -1,33 +1,39 @@
+{{> nav}}
+
+{{>messages}}
+
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" href="/home">Dashboard</a>
+        <a class="nav-link" href="/home">Dashboard</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/teams">Teams</a>
+        <a class="nav-link active" href="/teams">Teams</a>
     </li>
 </ul>
 
 <div class="container">
-    <div class="row">
+    <div class="row ">
         <div class="col-sm-6">
             <div class="card mt-4">
                 <div class="card-header">
-                    Nieuwe gebruikers
+                    {{team.name}}
                 </div>
                 <div class="card-body">
-                    {{#if newUsers}}
+                    {{#if team.members}}
                     <div class="card">
                         <ul class="list-group list-group-flush">
-                            {{#each newUsers}}
+                            {{#each team.members}}
                             <li class="list-group-item">
                                 <div class="row align-items-center">
                                     <div class="col-sm-6">
                                         {{this.firstname}} {{this.lastname}}
                                     </div>
                                     <div class="col-sm-6">
-                                        <button type="button" class="btn btn-light" data-toggle="modal"
-                                            data-target="#exampleModal" data-user-id={{this._id}}>
-                                            Voeg toe aan een team
+                                        <button type="button" class="btn btn-dark">
+                                            edit
+                                        </button>
+                                        <button type="button" class="btn btn-danger">
+                                            delete
                                         </button>
                                     </div>
                                 </div>
@@ -36,7 +42,7 @@
                             {{else}}
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <p>Er zijn geen nieuwe gebruikers</p>
+                                    <p>dit team heeft nog geen spelers</p>
                                 </div>
                             </div>
                         </ul>
@@ -47,5 +53,3 @@
         </div>
     </div>
 </div>
-
-{{> add-to-team-modal}}

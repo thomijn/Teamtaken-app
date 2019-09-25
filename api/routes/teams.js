@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const TeamController = require("../controllers/teams")
 
+
+router.get("/", TeamController.team)
+
 //get specific team
 router.get("/:_id", TeamController.get_a_team)
 
