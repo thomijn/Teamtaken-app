@@ -25,9 +25,14 @@ router.get("/", ensureAuthenticated, async (req, res) => {
                             })
                     })
             } else {
-                res.render("home", {
-                    admin: false
-                })
+                Team.findById(user.team)
+                    .then((team) => {
+                        res.render("home", {
+                            team: team,
+                            user: user,
+                            admin: false
+                        })
+                    })
             }
         })
         .catch((err) => res.status(400))
