@@ -91,3 +91,24 @@ exports.add_user_to_a_team = async (req, res) => {
         res.status(400).redirect('/home')
     }
 }
+
+exports.my_team = async (req, res) => {
+    try {
+        await User.findById(req.session.passport.user)
+            .then(async user => {
+                const team = await Team.findById(user.team).populate('members')
+                const tasks = await Task.find({ team: user.team })
+                res.render('my-team', {
+                    user: user,
+                    team: team,
+                    tasks: tasks
+                })
+            })
+    } catch (err) {
+        req.flash(
+            'error_msg',
+            'something went wrong'
+        );
+        res.status(400).redirect('/home')
+    }
+}

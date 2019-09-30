@@ -25,7 +25,7 @@ router.get("/", ensureAuthenticated, async (req, res) => {
                             })
                     })
             } else {
-                Team.findById(user.team)
+                Team.findById(user.team).populate('members')
                     .then((team) => {
                         res.render("home", {
                             team: team,

@@ -1,17 +1,103 @@
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" href="/home">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/teams/team">Mijn team</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/add-a-team">Mijn Profiel</a>
+    </li>
+    {{#if team-captain}}
+    <li class="nav-item">
+        <a class="nav-link" href="/add-a-team">Taak aanmaken</a>
+    </li>
+    {{/if}}
+</ul>
+
 {{#if team}}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Welkom bij de teamtaken app</h2>
-        </div>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Welkom bij de TeamTaken app</h1>
+        <p class="lead">Een simpele plek om al je team taken te managen</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/teams/team" role="button">Mijn Team</a>
+        </p>
     </div>
 </div>
 {{else}}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Helaas, je bent nog niet toegevoegd aan een team.</h2>
-        </div>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Welkom bij de TeamTaken app</h1>
+        <p class="lead">Een simpele plek om al je team taken te managen</p>
+        <hr class="my-4">
+        <p class="lead">Helaas, je bent nog niet toegevoegd aan een team! <i class="fal fa-frown" /></p>
     </div>
 </div>
 {{/if}}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card mt-4">
+                <div class="card-header">
+                    Eerst aankomende taak
+                </div>
+                <div class="card-body">
+                    {{#if tasks}}
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            {{#each tasks}}
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-12">
+                                        {{this.title}}
+                                    </div>
+                                </div>
+                            </li>
+                            {{/each}}
+                            {{else}}
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <p>Je hebt geen aankomende taken</p>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        Mijn team
+                    </div>
+                    <div class="card-body">
+                        {{#if team.members}}
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                {{#each team.members}}
+                                <li class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-sm-12">
+                                            {{this.firstname}} {{this.lastname}}
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        {{else}}
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <p>dit team heeft nog geen spelers</p>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
