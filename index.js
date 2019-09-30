@@ -47,6 +47,8 @@ mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch(err => console.log(err));
 
+mongoose.set('useFindAndModify', false)
+
 // Register handlebars view engine
 app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
 // Use handlebars view engine
