@@ -106,74 +106,82 @@ exports.my_team = async (req, res) => {
                 })
             })
     } catch (err) {
-        exports.delete_user_from_team = async (req, res) => {
-            try {
-                await User.findById(req.body.userId)
-                    .then(async user => {
-                        await User.findOneAndUpdate({ _id: req.body.userId }, { team: null })
-                        await Team.findByIdAndUpdate(user.team, { $pull: { members: req.body.userId } })
-                            .then((team) => {
-                                res.redirect(`/teams/${team._id}`)
-                            })
-                    })
-            }
-            catch (err) {
-                req.flash(
-                    'error_msg',
-                    'something went wrong'
-                );
-                res.status(400).redirect('/home')
-            }
-        }
+        req.flash(
+            'error_msg',
+            'something went wrong'
+        );
+        res.status(400).redirect('/home')
+    }
+}
 
-        exports.delete_user_from_team = async (req, res) => {
-            try {
-                await User.findById(req.body.userId)
-                    .then(async user => {
-                        await User.findOneAndUpdate({ _id: req.body.userId }, { team: null })
-                        await Team.findByIdAndUpdate(user.team, { $pull: { members: req.body.userId } })
-                            .then((team) => {
-                                res.redirect(`/teams/${team._id}`)
-                            })
-                    })
-            }
-            catch (err) {
-                req.flash(
-                    'error_msg',
-                    'something went wrong'
-                );
-                res.status(400).redirect('/home')
-            }
-        }
-
-        exports.change_users_team = async (req, res) => {
-            try {
-                const user = await User.findById(req.body.userId)
+exports.delete_user_from_team = async (req, res) => {
+    try {
+        await User.findById(req.body.userId)
+            .then(async user => {
+                await User.findOneAndUpdate({ _id: req.body.userId }, { team: null })
                 await Team.findByIdAndUpdate(user.team, { $pull: { members: req.body.userId } })
-                    .then(async () => {
-                        await User.findByIdAndUpdate(req.body.userId, { team: req.body._id })
-                        await Team.findByIdAndUpdate(req.body._id, { $push: { members: req.body.userId } })
-                            .then(() => {
-                                req.flash(
-                                    'success_msg',
-                                    'User succesfully transferred'
-                                );
-                                res.redirect(`/teams/${user.team}`)
-                            })
-                            .catch((err) => {
-                                req.flash(
-                                    'error_msg',
-                                    'something went wrong'
-                                );
-                                res.status(400).redirect(`/teams/${user.team}`)
-                            })
+                    .then((team) => {
+                        res.redirect(`/teams/${team._id}`)
                     })
-            }
-            catch (err) {
-                req.flash(
-                    'error_msg',
-                    'something went wrong'
-                );
-                res.status(400).redirect(`/teams/${user.team}`)
-            }
-        }
+            })
+    }
+    catch (err) {
+        req.flash(
+            'error_msg',
+            'something went wrong'
+        );
+        res.status(400).redirect('/home')
+    }
+}
+
+exports.delete_user_from_team = async (req, res) => {
+    try {
+        await User.findById(req.body.userId)
+            .then(async user => {
+                await User.findOneAndUpdate({ _id: req.body.userId }, { team: null })
+                await Team.findByIdAndUpdate(user.team, { $pull: { members: req.body.userId } })
+                    .then((team) => {
+                        res.redirect(`/teams/${team._id}`)
+                    })
+            })
+    }
+    catch (err) {
+        req.flash(
+            'error_msg',
+            'something went wrong'
+        );
+        res.status(400).redirect('/home')
+    }
+}
+
+exports.change_users_team = async (req, res) => {
+    try {
+        const user = await User.findById(req.body.userId)
+        await Team.findByIdAndUpdate(user.team, { $pull: { members: req.body.userId } })
+            .then(async () => {
+                await User.findByIdAndUpdate(req.body.userId, { team: req.body._id })
+                await Team.findByIdAndUpdate(req.body._id, { $push: { members: req.body.userId } })
+                    .then(() => {
+                        req.flash(
+                            'success_msg',
+                            'User succesfully transferred'
+                        );
+                        res.redirect(`/teams/${user.team}`)
+                    })
+                    .catch((err) => {
+                        req.flash(
+                            'error_msg',
+                            'something went wrong'
+                        );
+                        res.status(400).redirect(`/teams/${user.team}`)
+                    })
+            })
+    }
+    catch (err) {
+        req.flash(
+            'error_msg',
+            'something went wrong'
+        );
+        res.status(400).redirect(`/teams/${user.team}`)
+    }
+}

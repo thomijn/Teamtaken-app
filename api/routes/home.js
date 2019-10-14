@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const { ensureAuthenticated } = require('../middleware/verify')
+const checkCaptain = require("../middleware/roleCheck")
 const User = require("../models/User");
 const Team = require("../models/Team");
 
-router.get("/", ensureAuthenticated, async (req, res) => {
+router.get("/", [ensureAuthenticated, checkCaptain], async (req, res) => {
     User.findById(req.session.passport.user)
         .then(user => {
             if (user.role === "admin") {
@@ -30,7 +31,8 @@ router.get("/", ensureAuthenticated, async (req, res) => {
                         res.render("home", {
                             team: team,
                             user: user,
-                            admin: false
+                            admin: false,
+                            teamCaptain: res.locals.captain
                         })
                     })
             }
