@@ -7,7 +7,7 @@ const checkCaptain = require("../middleware/roleCheck")
 router.get('/', TaskController.get_all_task);
 
 //add task page
-router.get('/add-a-task', [ensureAuthenticated, checkCaptain], (req, res) => {
+router.get('/add-a-task', [checkCaptain], (req, res) => {
     res.render("add-a-task", {
         teamCaptain: res.locals.captain
     })

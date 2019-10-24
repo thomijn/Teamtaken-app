@@ -32,32 +32,35 @@
 
     {{{body}}}
 
-
+    <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
     <script>
         $('#exampleModal').on('show.bs.modal', function (e) {
-            var userId = $(e.relatedTarget).data('user-id');
+            let userId = $(e.relatedTarget).data('user-id');
             $(e.currentTarget).find('input[name="userId"]').val(userId);
         });
 
         $('#deleteModal').on('show.bs.modal', function (e) {
-            var userId = $(e.relatedTarget).data('user-id');
+            let userId = $(e.relatedTarget).data('user-id');
             $(e.currentTarget).find('input[name="userId"]').val(userId);
         });
 
         $('#editModal').on('show.bs.modal', function (e) {
-            var userId = $(e.relatedTarget).data('user-id');
+            let userId = $(e.relatedTarget).data('user-id');
             $(e.currentTarget).find('input[name="userId"]').val(userId);
         });
         $(document).ready(function () {
-            var date_input = $('input[name="date"]'); //our date input has the name "date"
-            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-            var options = {
+            let date_input = $('input[name="date"]'); //our date input has the name "date"
+            let container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            let options = {
                 format: 'mm/dd/yyyy',
                 container: container,
                 todayHighlight: true,
                 autoclose: true,
             };
             date_input.datepicker(options);
+        })
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
 

@@ -82,6 +82,13 @@
                                     <div class="row align-items-center">
                                         <div class="col-sm-12">
                                             {{this.firstname}} {{this.lastname}}
+                                            {{#ifCond this.role "team-captain"}}
+                                            <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder"
+                                                class="fa-stack fa-sm ">
+                                                <i class="fas fa-square fa-stack-2x"></i>
+                                                <i class="fab fa-cuttlefish fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                            {{/ifCond}}
                                         </div>
                                     </div>
                                 </li>

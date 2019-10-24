@@ -98,12 +98,31 @@ exports.my_team = async (req, res) => {
         await User.findById(req.session.passport.user)
             .then(async user => {
                 const team = await Team.findById(user.team).populate('members')
-                const tasks = await Task.find({ team: user.team })
-                res.render('my-team', {
-                    user: user,
-                    team: team,
-                    tasks: tasks
-                })
+                if (req.query.search || req.query.done || req.query.members) {
+                    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+                    if (req.query.done) {
+                        const tasks = await Task.find({ team: user.team, title: regex, done: req.query.done === "true" ? true : false }).populate('executors')
+                        res.render('my-team', {
+                            user: user,
+                            team: team,
+                            tasks: tasks
+                        })
+                    } else {
+                        const tasks = await Task.find({ team: user.team, title: regex }).populate('executors')
+                        res.render('my-team', {
+                            user: user,
+                            team: team,
+                            tasks: tasks
+                        })
+                    }
+                } else {
+                    const tasks = await Task.find({ team: user.team }).populate('executors')
+                    res.render('my-team', {
+                        user: user,
+                        team: team,
+                        tasks: tasks
+                    })
+                }
             })
     } catch (err) {
         req.flash(
@@ -185,3 +204,7 @@ exports.change_users_team = async (req, res) => {
         res.status(400).redirect(`/teams/${user.team}`)
     }
 }
+
+const escapeRegex = (text) => {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
