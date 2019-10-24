@@ -26,26 +26,31 @@
     {{{body}}}
     <script>
         $('#exampleModal').on('show.bs.modal', function (e) {
-            var userId = $(e.relatedTarget).data('user-id');
+            let userId = $(e.relatedTarget).data('user-id');
             $(e.currentTarget).find('input[name="userId"]').val(userId);
         });
 
         $('#deleteModal').on('show.bs.modal', function (e) {
-            var userId = $(e.relatedTarget).data('user-id');
+            let userId = $(e.relatedTarget).data('user-id');
             $(e.currentTarget).find('input[name="userId"]').val(userId);
         });
 
         $('#editModal').on('show.bs.modal', function (e) {
-            var userId = $(e.relatedTarget).data('user-id');
+            let userId = $(e.relatedTarget).data('user-id');
             $(e.currentTarget).find('input[name="userId"]').val(userId);
         });
-
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
         $('#datetimepicker').datetimepicker({
             uiLibrary: 'bootstrap',
             footer: true,
             smodal: true
         });
         $('select').selectpicker();
+    </script>
+
+
     </script>
 </body>
 

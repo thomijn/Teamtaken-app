@@ -12,7 +12,7 @@ module.exports = (passport) => {
                 email: email
             }).then(user => {
                 if (!user) {
-                    return done(null, false, { message: 'That email is not registered' });
+                    return done(null, false, { message: 'Dit email-adres is niet bekend' });
                 }
 
                 // Match password
@@ -21,7 +21,7 @@ module.exports = (passport) => {
                     if (isMatch) {
                         return done(null, user);
                     } else {
-                        return done(null, false, { message: 'Password incorrect' });
+                        return done(null, false, { message: 'Onjuist wachtwoord' });
                     }
                 });
             });
