@@ -25,23 +25,37 @@
             Nieuwe taak aanmaken
         </div>
         <div class="card-body">
-            <form>
+            <form method="post" action="/tasks/add-a-task">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                        placeholder="Enter email">
+                    <label for="title">Taak Titel</label>
+                    <input type="text" class="form-control" name="title" placeholder="Titel van de taak">
                 </div>
                 <div class="form-group">
-                    <!-- Date input -->
-                    <label class="control-label" for="date">Date</label>
-                    <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" />
+                    <label class="control-label" for="date">datum en tijd</label>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input placeholder="Kies een datum en tijd" name="date" readonly class="form-control"
+                                id="datetimepicker" />
+                        </div>
+                    </div>
                 </div>
-            </form>
+                <div class="form-group">
+                    <label class="control-label" for="executors">Uitvoerders</label>
+                    <select name="executors" multiple class="selectpicker" id="inputGroupSelect01">
+                        {{#each team.members}}
+                        <option value={{this._id}}>{{this.firstname}} {{this.lastname}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="done">Taak op klaar zetten</label>
+                    <input type="checkbox" name="done" aria-label="Checkbox for following text input">
+                    <input type="hidden" name="team" value="{{team._id}}">
+                </div>
+                <div class="row justify-content-end mr-1">
+                    <button class="btn btn-primary" type="submit">Opslaan</button>
+                </div>
         </div>
-        <div class="card-footer">
-            <div class="row justify-content-end mr-1">
-                <button class="btn btn-primary" type="submit">Opslaan</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>

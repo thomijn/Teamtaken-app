@@ -7,11 +7,16 @@
         <a class="nav-link" href="/home">Dashboard</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="/teams">Mijn team</a>
+        <a class="nav-link active" href="/teams/team">Mijn team</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" data-toggle="modal" data-target="#add-team-modal" href="/add-a-team">Mijn Profiel</a>
     </li>
+    {{#if teamCaptain}}
+    <li class="nav-item">
+        <a class="nav-link" href="/tasks/add-a-task">Taak aanmaken</a>
+    </li>
+    {{/if}}
 </ul>
 
 <div class="container">

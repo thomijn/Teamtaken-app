@@ -6,7 +6,7 @@
         <a class="nav-link" href="/teams/team">Mijn team</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/">Mijn Profiel</a>
+        <a class="nav-link" href="/users/user">Mijn Profiel</a>
     </li>
     {{#if teamCaptain}}
     <li class="nav-item">
@@ -63,41 +63,42 @@
                                     <p>Je hebt geen aankomende taken</p>
                                 </div>
                             </div>
+                            {{/if}}
                         </ul>
-                    </div>
-                    {{/if}}
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="card mt-4">
-                    <div class="card-header">
-                        Mijn team
-                    </div>
-                    <div class="card-body">
-                        {{#if team.members}}
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                {{#each team.members}}
-                                <li class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col-sm-12">
-                                            {{this.firstname}} {{this.lastname}}
-                                        </div>
-                                    </div>
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </div>
-                        {{else}}
-                        <div class="row align-items-center">
-                            <div class="col-sm-6">
-                                <p>dit team heeft nog geen spelers</p>
-                            </div>
-                        </div>
-                        {{/if}}
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-sm-6">
+            <div class="card mt-4">
+                <div class="card-header">
+                    Mijn team
+                </div>
+                <div class="card-body">
+                    {{#if team.members}}
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            {{#each team.members}}
+                            <li class="list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-12">
+                                        {{this.firstname}} {{this.lastname}}
+                                    </div>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    {{else}}
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <p>dit team heeft nog geen spelers</p>
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 </div>

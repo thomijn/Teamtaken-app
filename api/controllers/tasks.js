@@ -18,26 +18,31 @@ exports.delete_a_task = (req, res) => {
         .catch(err => res.status(404).json({ msg: "not found" }));
 }
 
-exports.make_a_task = (req, res) => {
-    const newTask = {
+exports.add_a_task = (req, res) => {
+    const done = req.body.done === "on" ? true : false
+    const newTask = new Task({
+        team: req.body.team,
         title: req.body.title,
         date: req.body.date,
-        team: req.body.team,
-        executors: req.body.executors
-    }
-    Task.save()
+        executors: req.body.executors,
+        done: done
+    });
+    newTask.save()
         .then(task => {
             req.flash(
                 'success_msg',
                 'Succesfully added a task'
             );
-            res.redirect('/add-a-task');
+            res.redirect('/tasks/add-a-task');
         })
         .catch(err => {
             req.flash(
                 'error_msg',
                 'Oops, Something went wrong :('
             );
-            res.redirect('/add-a-task');
+            res.redirect('/tasks/add-a-task');
         })
 }
+
+
+

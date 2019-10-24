@@ -28,12 +28,16 @@ router.get("/", [ensureAuthenticated, checkCaptain], async (req, res) => {
             } else {
                 Team.findById(user.team).populate('members')
                     .then((team) => {
-                        res.render("home", {
-                            team: team,
-                            user: user,
-                            admin: false,
-                            teamCaptain: res.locals.captain
-                        })
+                        Task.find({ team: team._id })
+                            .then((tasks) => {
+                                res.render("home", {
+                                    team: team,
+                                    user: user,
+                                    admin: false,
+                                    tasks: tasks,
+                                    teamCaptain: res.locals.captain
+                                })
+                            })
                     })
             }
         })

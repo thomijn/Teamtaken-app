@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const TeamController = require("../controllers/teams")
+const { ensureAuthenticated } = require('../middleware/verify')
+const checkCaptain = require("../middleware/roleCheck")
 
-
-router.get("/", TeamController.team)
+router.get("/", [ensureAuthenticated], TeamController.team)
 
 // user team
-router.get("/team", TeamController.my_team)
+router.get("/team", [ensureAuthenticated, checkCaptain], TeamController.my_team)
 
 //get specific team
 router.get("/:_id", TeamController.get_a_team)

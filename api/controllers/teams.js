@@ -7,7 +7,7 @@ exports.team = async (req, res) => {
         await Team.find()
             .then(teams => {
                 res.render("teams", {
-                    teams: teams
+                    teams: teams,
                 })
             })
     }
@@ -25,7 +25,7 @@ exports.get_a_team = async (req, res) => {
                     res.render("teams-detail", {
                         team: team,
                         teams: teams,
-                        tasks: tasks
+                        tasks: tasks,
                     })
                 })
             })
@@ -102,7 +102,8 @@ exports.my_team = async (req, res) => {
                 res.render('my-team', {
                     user: user,
                     team: team,
-                    tasks: tasks
+                    tasks: tasks,
+                    teamCaptain: res.locals.captain
                 })
             })
     } catch (err) {
