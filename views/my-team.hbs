@@ -39,11 +39,11 @@
                                     </select>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                    <select class="form-control search-slt" id="exampleFormControlSelect1">
-                                        <option value="">Alle teamleden</option>
-                                        {{!-- {{#each team.members}}
-                                    <option>{{this.firstname}} {{this.lastname}}</option>
-                                    {{/each}} --}}
+                                    <select title="Alle teamleden" name="members" class="selectpicker form-control"
+                                        id="exampleFormControlSelect1">
+                                        {{#each team.members}}
+                                        <option value={{this._id}}>{{this.firstname}} {{this.lastname}}</option>
+                                        {{/each}}
                                     </select>
                                 </div>
                                 <div class=" col-lg-3 col-md-3 col-sm-12 p-0">
@@ -61,6 +61,7 @@
                 <div class="card-body">
                     {{#if tasks}}
                     {{#each tasks}}
+                    {{> edit-task-modal}}
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -76,18 +77,41 @@
                                     {{#if this.done}}
                                     <p><span class="far fa-check fa-4x" style="color: green" /></p>
                                     {{else}}
-                                    <p><span class="far fa-times fa-4x" style="color: red" /></p>
+                                    <p><span class="fal fa-ellipsis-h fa-4x" /></p>
                                     {{/if}}
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            Uitvoerder(s)
-                            <div style="margin-left:0px" class="row">
-                                {{#each this.executors}}
-                                <h5><span style="margin-right:10px" class="badge badge-secondary">{{this.firstname}}
-                                        {{this.lastname}}</span></h5>
-                                {{/each}}
+                            <div class="row justify-content-between">
+                                <div class="col-sm-6">
+                                    Uitvoerder(s)
+                                    <div style="margin-left:0px" class="row">
+                                        {{#each this.executors}}
+                                        <h5><span style="margin-right:10px"
+                                                class="badge badge-secondary">{{this.firstname}}
+                                                {{this.lastname}}</span></h5>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <form action="/tasks/edit-done" method="post">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="toggle-done" name="done" data-on="Voltooid"
+                                                data-off="Niet voltooid" data-onstyle="success" {{#if this.done }}
+                                                checked {{/if}} data-toggle="toggle" value={{this._id}}>
+                                            <a style="text-decoration: none;" href="/tasks/add-a-task">
+                                                <button type="button" class="btn btn-dark">
+                                                    <span class="fal fa-edit fa-lg">
+                                                </button>
+                                            </a>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteModal" data-user-id={{this._id}}>
+                                                <span class="fal fa-trash fa-lg">
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,7 +138,8 @@
                                     <div class="col-sm-12">
                                         {{this.firstname}} {{this.lastname}}
                                         {{#ifCond this.role "team-captain"}}
-                                        <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder" class="fa-stack fa-sm ">
+                                        <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder"
+                                            class="fa-stack fa-sm ">
                                             <i class="fas fa-square fa-stack-2x"></i>
                                             <i class="fab fa-cuttlefish fa-stack-1x fa-inverse"></i>
                                         </span>

@@ -34,6 +34,7 @@ router.get('/:_id', TaskController.get_a_task)
 router.post('/add-a-task', TaskController.add_a_task)
 
 //edit task
+router.post('/edit-done', TaskController.edit_done_task)
 
 //delete task
 router.delete("/:_id", TaskController.delete_a_task)

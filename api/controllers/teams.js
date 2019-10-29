@@ -100,8 +100,24 @@ exports.my_team = async (req, res) => {
                 const team = await Team.findById(user.team).populate('members')
                 if (req.query.search || req.query.done || req.query.members) {
                     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-                    if (req.query.done) {
+                    if (req.query.members !== "" && req.query.done !== "") {
+                        const tasks = await Task.find({ team: user.team, title: regex, executors: { $all: [req.query.members] }, done: req.query.done === "true" ? true : false }).populate('executors')
+                        res.render('my-team', {
+                            user: user,
+                            team: team,
+                            tasks: tasks,
+                            teamCaptain: res.locals.captain,
+                        })
+                    } else if (req.query.done && req.query.members === "") {
                         const tasks = await Task.find({ team: user.team, title: regex, done: req.query.done === "true" ? true : false }).populate('executors')
+                        res.render('my-team', {
+                            user: user,
+                            team: team,
+                            tasks: tasks,
+                            teamCaptain: res.locals.captain,
+                        })
+                    } else if (req.query.members && req.query.done === "") {
+                        const tasks = await Task.find({ team: user.team, title: regex, executors: { $all: [req.query.members] } }).populate('executors')
                         res.render('my-team', {
                             user: user,
                             team: team,
@@ -128,6 +144,7 @@ exports.my_team = async (req, res) => {
                 }
             })
     } catch (err) {
+        console.log(err)
         req.flash(
             'error_msg',
             'something went wrong'

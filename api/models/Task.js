@@ -8,7 +8,7 @@ const TaskSchema = new Schema({
         required: true
     },
     date: {
-        type: Date,
+        type: String,
         required: true
     },
     done: {

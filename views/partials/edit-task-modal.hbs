@@ -1,0 +1,47 @@
+<div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="add-team-modal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="/tasks/edit-a-task">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Taak wijzigen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="title">Taak Titel</label>
+                        <input type="text" class="form-control" name="title" value={{this.title}}
+                            placeholder="Titel van de taak">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="date">datum en tijd</label>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <input placeholder="Kies een datum en tijd" name="date" style="background-color: white;"
+                                    readonly class="date form-control" id="datetimepicker" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="executors">Uitvoerders</label>
+                        <select name="executors" multiple class="selectpicker form-control" id="inputGroupSelect01">
+                            {{#each team.members}}
+                            <option value={{this._id}}>{{this.firstname}} {{this.lastname}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="done">Taak op klaar zetten</label>
+                        <input type="checkbox" name="done" aria-label="Checkbox for following text input">
+                        <input type="hidden" name="team" value="{{team._id}}">
+                    </div>
+                    <div class="row justify-content-end mr-1">
+                        <button class="btn btn-primary" type="submit">Opslaan</button>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+</div>

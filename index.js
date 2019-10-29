@@ -50,9 +50,9 @@ mongoose
 mongoose.set('useFindAndModify', false)
 
 // Register handlebars view engine
-app.engine('.hbs', exphbs({ 
-  defaultLayout: 'main', 
-  extname: '.hbs',  
+app.engine('.hbs', exphbs({
+  defaultLayout: 'main',
+  extname: '.hbs',
   helpers: require("./api/helpers/handlebars"),
 }));
 // Use handlebars view engine
