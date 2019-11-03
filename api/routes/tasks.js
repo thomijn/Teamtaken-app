@@ -3,40 +3,19 @@ const TaskController = require("../controllers/tasks")
 const { ensureAuthenticated } = require('../middleware/verify')
 const checkCaptain = require("../middleware/roleCheck")
 
-//get all tasks
-router.get('/', TaskController.get_all_task);
-
 //add task page
-router.get('/add-a-task', [ensureAuthenticated, checkCaptain], (req, res) => {
-    User.findById(req.session.passport.user)
-        .then((user) => {
-            Team.findById(user.team).populate('members')
-                .then((team) => {
-                    res.render("add-a-task", {
-                        teamCaptain: res.locals.captain,
-                        team: team
-                    })
-                })
-        })
-        .catch(err => {
-            req.flash(
-                'error_msg',
-                'Oops, Something went wrong :('
-            );
-            res.redirect('/home');
-        })
-})
-
-//get specific task
-router.get('/:_id', TaskController.get_a_task)
+router.get('/add-a-task', [ensureAuthenticated, checkCaptain], TaskController.add_a_task_GET)
 
 //add task
-router.post('/add-a-task', TaskController.add_a_task)
+router.post('/add-a-task', [ensureAuthenticated, checkCaptain], TaskController.add_a_task)
+
+//edit task done
+router.post('/edit-done', [ensureAuthenticated, checkCaptain], TaskController.edit_done_task)
 
 //edit task
-router.post('/edit-done', TaskController.edit_done_task)
+router.get('/edit-task/:_id', [ensureAuthenticated, checkCaptain], TaskController.edit_a_task_GET)
 
 //delete task
-router.delete("/:_id", TaskController.delete_a_task)
+router.post("/delete", [ensureAuthenticated, checkCaptain], TaskController.delete_a_task)
 
 module.exports = router;

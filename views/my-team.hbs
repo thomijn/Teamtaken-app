@@ -1,7 +1,5 @@
 {{> nav}}
 
-{{>messages}}
-
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link" href="/home">Dashboard</a>
@@ -10,7 +8,7 @@
         <a class="nav-link active" href="/teams/team">Mijn team</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#add-team-modal" href="/add-a-team">Mijn Profiel</a>
+        <a class="nav-link" href="/users/my-profile">Mijn Profiel</a>
     </li>
     {{#if teamCaptain}}
     <li class="nav-item">
@@ -18,6 +16,8 @@
     </li>
     {{/if}}
 </ul>
+
+{{>messages}}
 
 <div class="container">
     <div class="row">
@@ -98,17 +98,20 @@
                                     <form action="/tasks/edit-done" method="post">
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="toggle-done" name="done" data-on="Voltooid"
-                                                data-off="Niet voltooid" data-onstyle="success" {{#if this.done }}
+                                                data-off="Niet voltooid" data-onstyle="success"
+                                                data-role={{../user.role}} data-team={{../user.team}} {{#if this.done }}
                                                 checked {{/if}} data-toggle="toggle" value={{this._id}}>
-                                            <a style="text-decoration: none;" href="/tasks/add-a-task">
+                                            {{#if ../teamCaptain}}
+                                            <a style="text-decoration: none;" href="/tasks/edit-task/{{this._id}}">
                                                 <button type="button" class="btn btn-dark">
                                                     <span class="fal fa-edit fa-lg">
                                                 </button>
                                             </a>
                                             <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#deleteModal" data-user-id={{this._id}}>
+                                                data-target="#deleteTaskModal" data-task-id={{this._id}}>
                                                 <span class="fal fa-trash fa-lg">
                                             </button>
+                                            {{/if}}
                                         </div>
                                     </form>
                                 </div>
@@ -136,14 +139,17 @@
                             <li class="list-group-item">
                                 <div class="row align-items-center">
                                     <div class="col-sm-12">
-                                        {{this.firstname}} {{this.lastname}}
-                                        {{#ifCond this.role "team-captain"}}
-                                        <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder"
-                                            class="fa-stack fa-sm ">
-                                            <i class="fas fa-square fa-stack-2x"></i>
-                                            <i class="fab fa-cuttlefish fa-stack-1x fa-inverse"></i>
+                                        <span {{#ifCond this._id ../user._id }} style="font-weight:600"
+                                            {{/ifCond}}>{{this.firstname}}
+                                            {{this.lastname}}
+                                            {{#ifCond this.role "team-captain"}}
+                                            <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder"
+                                                class="fa-stack fa-sm ">
+                                                <i class="fas fa-square fa-stack-2x"></i>
+                                                <i class="fab fa-cuttlefish fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                            {{/ifCond}}
                                         </span>
-                                        {{/ifCond}}
                                     </div>
                                 </div>
                             </li>
@@ -162,3 +168,5 @@
         </div>
     </div>
 </div>
+
+{{> delete-task-modal}}

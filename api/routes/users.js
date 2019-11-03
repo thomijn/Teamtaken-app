@@ -1,13 +1,12 @@
 const router = require("express").Router();
 const UserController = require("../controllers/users")
+const { ensureAuthenticated } = require('../middleware/verify')
+const checkCaptain = require("../middleware/roleCheck")
 
-//get users
-router.get('/', UserController.get_all_users);
+//my profile
+router.get("/my-profile", [ensureAuthenticated, checkCaptain], UserController.my_profile)
 
-//get specific user
-router.get('/:id', UserController.get_a_user)
-
-//delete user
-router.delete("/:id", UserController.delete_a_user)
+//edit profile
+router.post("/edit-my-profile", [ensureAuthenticated, checkCaptain], UserController.edit_my_profile)
 
 module.exports = router;

@@ -12,7 +12,7 @@ exports.team = async (req, res) => {
             })
     }
     catch (err) {
-        res.status(400).send("something went wrong")
+        res.status(400).send("Oeps er is iets verkeerd gegaan")
     }
 }
 
@@ -20,18 +20,25 @@ exports.get_a_team = async (req, res) => {
     try {
         await Team.findById(req.params._id).populate('members')
             .then((team) => {
-                Task.find({ team: req.params._id }).then(async (tasks) => {
+                Task.find({ team: req.params._id }).populate('executors').then(async (tasks) => {
                     const teams = await Team.find()
+                    const user = await User.findById(req.session.passport.user)
                     res.render("teams-detail", {
+                        user: user,
                         team: team,
                         teams: teams,
                         tasks: tasks,
+                        teamCaptain: res.locals.captain
                     })
                 })
             })
     }
     catch (err) {
-        res.status(400).send(err)
+        req.flash(
+            'error_msg',
+            'Oeps er is iets verkeerd gegaan'
+        );
+        res.status(400).redirect('/teams')
     }
 }
 
@@ -79,7 +86,7 @@ exports.add_user_to_a_team = async (req, res) => {
             .catch((err) => {
                 req.flash(
                     'error_msg',
-                    'something went wrong'
+                    'Oeps er is iets verkeerd gegaan'
                 );
                 res.status(400).redirect('/home')
             })
@@ -87,7 +94,7 @@ exports.add_user_to_a_team = async (req, res) => {
     catch (err) {
         req.flash(
             'error_msg',
-            'something went wrong'
+            'Oeps er is iets verkeerd gegaan'
         );
         res.status(400).redirect('/home')
     }
@@ -101,7 +108,7 @@ exports.my_team = async (req, res) => {
                 if (req.query.search || req.query.done || req.query.members) {
                     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
                     if (req.query.members !== "" && req.query.done !== "") {
-                        const tasks = await Task.find({ team: user.team, title: regex, executors: { $all: [req.query.members] }, done: req.query.done === "true" ? true : false }).populate('executors')
+                        const tasks = await Task.find({ team: user.team, title: regex, executors: { $all: [req.query.members] }, done: req.query.done === "true" ? true : false }).populate('executors').sort({ date: 1 })
                         res.render('my-team', {
                             user: user,
                             team: team,
@@ -109,7 +116,7 @@ exports.my_team = async (req, res) => {
                             teamCaptain: res.locals.captain,
                         })
                     } else if (req.query.done && req.query.members === "") {
-                        const tasks = await Task.find({ team: user.team, title: regex, done: req.query.done === "true" ? true : false }).populate('executors')
+                        const tasks = await Task.find({ team: user.team, title: regex, done: req.query.done === "true" ? true : false }).populate('executors').sort({ date: 1 })
                         res.render('my-team', {
                             user: user,
                             team: team,
@@ -117,7 +124,7 @@ exports.my_team = async (req, res) => {
                             teamCaptain: res.locals.captain,
                         })
                     } else if (req.query.members && req.query.done === "") {
-                        const tasks = await Task.find({ team: user.team, title: regex, executors: { $all: [req.query.members] } }).populate('executors')
+                        const tasks = await Task.find({ team: user.team, title: regex, executors: { $all: [req.query.members] } }).populate('executors').sort({ date: 1 })
                         res.render('my-team', {
                             user: user,
                             team: team,
@@ -125,7 +132,7 @@ exports.my_team = async (req, res) => {
                             teamCaptain: res.locals.captain,
                         })
                     } else {
-                        const tasks = await Task.find({ team: user.team, title: regex }).populate('executors')
+                        const tasks = await Task.find({ team: user.team, title: regex }).populate('executors').sort({ date: 1 })
                         res.render('my-team', {
                             user: user,
                             team: team,
@@ -134,7 +141,7 @@ exports.my_team = async (req, res) => {
                         })
                     }
                 } else {
-                    const tasks = await Task.find({ team: user.team }).populate('executors')
+                    const tasks = await Task.find({ team: user.team }).populate('executors').sort({ date: 1 })
                     res.render('my-team', {
                         user: user,
                         team: team,
@@ -147,7 +154,7 @@ exports.my_team = async (req, res) => {
         console.log(err)
         req.flash(
             'error_msg',
-            'something went wrong'
+            'Oeps er is iets verkeerd gegaan'
         );
         res.status(400).redirect('/home')
     }
@@ -167,7 +174,7 @@ exports.delete_user_from_team = async (req, res) => {
     catch (err) {
         req.flash(
             'error_msg',
-            'something went wrong'
+            'Oeps er is iets verkeerd gegaan'
         );
         res.status(400).redirect('/home')
     }
@@ -187,7 +194,7 @@ exports.delete_user_from_team = async (req, res) => {
     catch (err) {
         req.flash(
             'error_msg',
-            'something went wrong'
+            'Oeps er is iets verkeerd gegaan'
         );
         res.status(400).redirect('/home')
     }
@@ -210,7 +217,7 @@ exports.change_users_team = async (req, res) => {
                     .catch((err) => {
                         req.flash(
                             'error_msg',
-                            'something went wrong'
+                            'Oeps er is iets verkeerd gegaan'
                         );
                         res.status(400).redirect(`/teams/${user.team}`)
                     })
@@ -219,7 +226,7 @@ exports.change_users_team = async (req, res) => {
     catch (err) {
         req.flash(
             'error_msg',
-            'something went wrong'
+            'Oeps er is iets verkeerd gegaan'
         );
         res.status(400).redirect(`/teams/${user.team}`)
     }

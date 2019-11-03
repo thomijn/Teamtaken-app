@@ -1,0 +1,64 @@
+{{> nav}}
+
+{{>messages}}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" href="/home">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/teams/team">Mijn team</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link  active" href="/users/my-profile">Mijn Profiel</a>
+    </li>
+    {{#if teamCaptain}}
+    <li class="nav-item">
+        <a class="nav-link" href="/tasks/add-a-task">Taak aanmaken</a>
+    </li>
+    {{/if}}
+</ul>
+
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header">
+            Mijn gegevens
+        </div>
+        <div class="card-body">
+            <form method="post" action="/users/edit-my-profile">
+                <div class="form-group">
+                    <label for="title">Voornaam</label>
+                    <input value={{user.firstname}} type="text" class="form-control" name="firstname"
+                        placeholder="Uw voornaam">
+                </div>
+                <div class="form-group">
+                    <label for="title">Achternaam</label>
+                    <input value={{user.lastname}} type="text" class="form-control" name="lastname"
+                        placeholder="Uw achternaam">
+                </div>
+                <div class="form-group">
+                    <label for="title">Email-adres</label>
+                    <input value={{user.email}} type="email" class="form-control" name="email"
+                        placeholder="Uw email-adres">
+                </div>
+        </div>
+        <div class="card-header">
+            Wachtwoord veranderen
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="title">Oud wachtwoord</label>
+                <input type="password" class="form-control" name="oldPassword" placeholder="Huidig wachtwoord">
+            </div>
+            <div class="form-group">
+                <label for="title">Nieuw wachtwoord</label>
+                <input type="password" class="form-control mb-2" name="newPassword" placeholder="Nieuw wachtwoord">
+                <input type="password" class="form-control" name="newPassword2" placeholder="Herhaal nieuw wachtwoord">
+            </div>
+            <div class="row justify-content-end mr-1">
+                <button class="btn btn-primary" type="submit">Opslaan</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

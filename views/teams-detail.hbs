@@ -1,7 +1,5 @@
 {{> nav}}
 
-{{>messages}}
-
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link" href="/home">Dashboard</a>
@@ -9,11 +7,16 @@
     <li class="nav-item">
         <a class="nav-link active" href="/teams">Teams</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#add-team-modal" href="/add-a-team">Nieuw Team</a>
+    </li>
 </ul>
+
+{{>messages}}
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <div class="card mt-4">
                 <div class="card-header">
                     {{team.name}}
@@ -60,47 +63,87 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+
+        <div class="col-sm-7">
             <div class="card mt-4">
                 <div class="card-header">
-                    Team taken
+                    Team Taken
                 </div>
                 <div class="card-body">
                     {{#if tasks}}
+                    {{#each tasks}}
+                    {{> edit-task-modal}}
                     <div class="card">
-                        <ul class="list-group list-group-flush">
-                            {{#each tasks}}
-                            <li class="list-group-item">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-6">
-                                        {{this.title}}
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <div class="card-title">
+                                        <h4>{{this.title}}</h4>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <button type="button" class="btn btn-dark">
-                                            edit
-                                        </button>
-                                        <button type="button" class="btn btn-danger">
-                                            delete
-                                        </button>
+                                    <div class="card-text">
+                                        {{this.date}}
                                     </div>
                                 </div>
-                            </li>
-                            {{/each}}
-                            {{else}}
-                            <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <p>dit team heeft nog geen taken</p>
+                                <div class="col-sm-2">
+                                    {{#if this.done}}
+                                    <p><span class="far fa-check fa-4x" style="color: green" /></p>
+                                    {{else}}
+                                    <p><span class="fal fa-ellipsis-h fa-4x" /></p>
+                                    {{/if}}
                                 </div>
                             </div>
-                        </ul>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row justify-content-between">
+                                <div class="col-sm-6">
+                                    Uitvoerder(s)
+                                    <div style="margin-left:0px" class="row">
+                                        {{#each this.executors}}
+                                        <h5><span style="margin-right:10px"
+                                                class="badge badge-secondary">{{this.firstname}}
+                                                {{this.lastname}}</span></h5>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                {{#if ../teamCaptain}}
+                                <div class="col-sm-6">
+                                    <form action="/tasks/edit-done" method="post">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="toggle-done" name="done" data-on="Voltooid"
+                                                data-off="Niet voltooid" data-onstyle="success" {{#if this.done }}
+                                                checked {{/if}} data-team={{../team._id}} data-toggle="toggle"
+                                                value={{this._id}} data-role={{../user.role}}>
+                                            <a style="text-decoration: none;" href="/tasks/edit-task/{{this._id}}">
+                                                <button type="button" class="btn btn-dark">
+                                                    <span class="fal fa-edit fa-lg">
+                                                </button>
+                                            </a>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteTaskModal" data-task-id={{this._id}}>
+                                                <span class="fal fa-trash fa-lg">
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {{/if}}
+                            </div>
+                        </div>
                     </div>
+                    {{/each}}
+                    {{else}}
+                    <p>Geen resultaten gevonden...</p>
                     {{/if}}
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
 {{> delete-modal}}
 
 {{> edit-modal}}
+
+{{>add-team-modal}}
+
+{{> delete-task-modal}}

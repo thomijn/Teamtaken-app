@@ -23,59 +23,15 @@
 
     <script src="https://kit.fontawesome.com/2e9ad86088.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/index.css">
-    <title>Example App</title>
+    <title>TeamTaken app</title>
 </head>
 
 <body>
 
     {{{body}}}
-    <script>
-        $('#exampleModal').on('show.bs.modal', function (e) {
-            let userId = $(e.relatedTarget).data('user-id');
-            $(e.currentTarget).find('input[name="userId"]').val(userId);
-        });
 
-        $('#deleteModal').on('show.bs.modal', function (e) {
-            let userId = $(e.relatedTarget).data('user-id');
-            $(e.currentTarget).find('input[name="userId"]').val(userId);
-        });
+    <script src="/js/index.js" type="text/javascript"></script>
 
-        $('#editModal').on('show.bs.modal', function (e) {
-            let userId = $(e.relatedTarget).data('user-id');
-            $(e.currentTarget).find('input[name="userId"]').val(userId);
-        });
-        $('#editTaskModal').on('show.bs.modal', function (e) {
-            let userId = $(e.relatedTarget).data('user-id');
-            $(e.currentTarget).find('input[name="userId"]').val(userId);
-        });
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-        $('#datetimepicker').datetimepicker({
-            uiLibrary: 'bootstrap',
-            footer: true,
-            smodal: true
-        });
-        $('select').selectpicker();
-
-        $('.toggle-done').on('change.bootstrapSwitch', function (e) {
-            let data = {};
-            data.done = e.target.checked;
-            data._id = e.target.value;
-            $.ajax({
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                url: 'http://localhost:5000/tasks/edit-done',
-                success: function (data) {
-                    window.location.replace("http://localhost:5000/teams/team");
-                }
-            });
-        });
-    </script>
-
-
-    </script>
 </body>
 
 </html>

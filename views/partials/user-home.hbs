@@ -6,7 +6,7 @@
         <a class="nav-link" href="/teams/team">Mijn team</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/home">Mijn Profiel</a>
+        <a class="nav-link" href="/users/my-profile">Mijn Profiel</a>
     </li>
     {{#if teamCaptain}}
     <li class="nav-item">
@@ -18,7 +18,8 @@
 {{#if team}}
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">Welkom bij de TeamTaken app</h1>
+        <h1 class="display-3">Welkom {{user.firstname}}</h1>
+        <h1 class="display-3">De TeamTaken app</h1>
         <p class="lead">Een simpele plek om al je team taken te managen</p>
         <hr class="my-4">
         <p class="lead">
@@ -29,7 +30,8 @@
 {{else}}
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">Welkom bij de TeamTaken app</h1>
+        <h1 class="display-3">Welkom {{user.firstname}}</h1>
+        <h1 class="display-3">De TeamTaken app</h1>
         <p class="lead">Een simpele plek om al je team taken te managen</p>
         <hr class="my-4">
         <p class="lead">Helaas, je bent nog niet toegevoegd aan een team! <i class="fal fa-frown" /></p>
@@ -45,26 +47,29 @@
                     Eerst aankomende taak
                 </div>
                 <div class="card-body">
-                    {{#if tasks}}
+                    {{#if task}}
                     <div class="card">
-                        <ul class="list-group list-group-flush">
-                            {{#each tasks}}
-                            <li class="list-group-item">
-                                <div class="row align-items-center">
-                                    <div class="col-sm-12">
-                                        {{this.title}}
-                                    </div>
-                                </div>
-                            </li>
-                            {{/each}}
-                            {{else}}
+                        <div class="card-body">
+
                             <div class="row align-items-center">
-                                <div class="col-sm-6">
-                                    <p>Je hebt geen aankomende taken</p>
+                                <div class="col-sm-12">
+                                    <h5>{{task.title}}</h5>
+                                </div>
+                                <div class="col-sm-12">
+                                    <p><span style="margin-right: 5px;" class="fal fa-clock fa-lg"> </span>
+                                        {{timeTill}}</p>
                                 </div>
                             </div>
-                            {{/if}}
-                        </ul>
+
+                        </div>
+                        {{else}}
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <p>Je hebt geen aankomende taken
+                                </p>
+                            </div>
+                        </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -82,14 +87,15 @@
                             <li class="list-group-item">
                                 <div class="row align-items-center">
                                     <div class="col-sm-12">
-                                        {{this.firstname}} {{this.lastname}}
-                                        {{#ifCond this.role "team-captain"}}
-                                        <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder"
-                                            class="fa-stack fa-sm ">
-                                            <i class="fas fa-square fa-stack-2x"></i>
-                                            <i class="fab fa-cuttlefish fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                        {{/ifCond}}
+                                        <span{{#ifCond this._id ../user._id }} style="font-weight:600" {{/ifCond}}>
+                                            {{this.firstname}} {{this.lastname}}</span>
+                                            {{#ifCond this.role "team-captain"}}
+                                            <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder"
+                                                class="fa-stack fa-sm ">
+                                                <i class="fas fa-square fa-stack-2x"></i>
+                                                <i class="fab fa-cuttlefish fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                            {{/ifCond}}
                                     </div>
                                 </div>
                             </li>

@@ -2,6 +2,10 @@ const bcrypt = require("bcryptjs")
 const User = require("../models/User");
 const passport = require('passport');
 
+exports.register_a_user_GET = (req, res) => {
+    res.render("register")
+}
+
 exports.register_a_user = async (req, res) => {
     const { firstname, lastname, email, password, password2 } = req.body;
     let errors = [];

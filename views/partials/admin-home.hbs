@@ -5,7 +5,21 @@
     <li class="nav-item">
         <a class="nav-link" href="/teams">Teams</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#add-team-modal" href="/add-a-team">Nieuw Team</a>
+    </li>
 </ul>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Welkom bij de TeamTaken app</h1>
+        <p class="lead">Een simpele plek om al je team taken te managen</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/teams" role="button">Teams</a>
+        </p>
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -49,3 +63,5 @@
 </div>
 
 {{> add-to-team-modal}}
+
+{{>add-team-modal}}
