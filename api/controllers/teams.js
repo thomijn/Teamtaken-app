@@ -1,6 +1,7 @@
 const Team = require("../models/Team");
 const User = require("../models/User");
 const Task = require("../models/Task");
+var moment = require('moment');
 
 exports.team = async (req, res) => {
     try {
@@ -104,6 +105,8 @@ exports.my_team = async (req, res) => {
     try {
         await User.findById(req.session.passport.user)
             .then(async user => {
+                let b = moment();
+                const daysUser = b.diff(moment(user.created), 'days') >= 10 ? true : false
                 const team = await Team.findById(user.team).populate('members')
                 if (req.query.search || req.query.done || req.query.members) {
                     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
@@ -114,6 +117,7 @@ exports.my_team = async (req, res) => {
                             team: team,
                             tasks: tasks,
                             teamCaptain: res.locals.captain,
+                            oldUser: daysUser
                         })
                     } else if (req.query.done && req.query.members === "") {
                         const tasks = await Task.find({ team: user.team, title: regex, done: req.query.done === "true" ? true : false }).populate('executors').sort({ date: 1 })
@@ -122,6 +126,7 @@ exports.my_team = async (req, res) => {
                             team: team,
                             tasks: tasks,
                             teamCaptain: res.locals.captain,
+                            oldUser: daysUser
                         })
                     } else if (req.query.members && req.query.done === "") {
                         const tasks = await Task.find({ team: user.team, title: regex, executors: { $all: [req.query.members] } }).populate('executors').sort({ date: 1 })
@@ -130,6 +135,7 @@ exports.my_team = async (req, res) => {
                             team: team,
                             tasks: tasks,
                             teamCaptain: res.locals.captain,
+                            oldUser: daysUser
                         })
                     } else {
                         const tasks = await Task.find({ team: user.team, title: regex }).populate('executors').sort({ date: 1 })
@@ -138,6 +144,7 @@ exports.my_team = async (req, res) => {
                             team: team,
                             tasks: tasks,
                             teamCaptain: res.locals.captain,
+                            oldUser: daysUser
                         })
                     }
                 } else {
@@ -147,11 +154,11 @@ exports.my_team = async (req, res) => {
                         team: team,
                         tasks: tasks,
                         teamCaptain: res.locals.captain,
+                        oldUser: daysUser
                     })
                 }
             })
     } catch (err) {
-        console.log(err)
         req.flash(
             'error_msg',
             'Oeps er is iets verkeerd gegaan'

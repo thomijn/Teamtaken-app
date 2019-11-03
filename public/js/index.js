@@ -4,12 +4,10 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     let userId = $(e.relatedTarget).data('user-id');
     $(e.currentTarget).find('input[name="userId"]').val(userId);
 });
-
 $('#deleteModal').on('show.bs.modal', function (e) {
     let userId = $(e.relatedTarget).data('user-id');
     $(e.currentTarget).find('input[name="userId"]').val(userId);
 });
-
 $('#editModal').on('show.bs.modal', function (e) {
     let userId = $(e.relatedTarget).data('user-id');
     $(e.currentTarget).find('input[name="userId"]').val(userId);
@@ -17,6 +15,10 @@ $('#editModal').on('show.bs.modal', function (e) {
 $('#deleteTaskModal').on('show.bs.modal', function (e) {
     let taskId = $(e.relatedTarget).data('task-id');
     $(e.currentTarget).find('input[name="taskId"]').val(taskId);
+});
+$('#editRoleModal').on('show.bs.modal', function (e) {
+    let userId = $(e.relatedTarget).data('user-id');
+    $(e.currentTarget).find('input[name="userId"]').val(userId);
 });
 
 // tooltips
@@ -54,7 +56,8 @@ $('.toggle-done').on('change.bootstrapSwitch', function (e) {
         contentType: 'application/json',
         url: 'http://localhost:5000/tasks/edit-done',
         success: function (data) {
-            if (role === "team-captain") {
+            console.log(role)
+            if (role === "team-captain" || role === "team-member") {
                 window.location.replace("http://localhost:5000/teams/team");
             } else {
                 window.location.replace(`http://localhost:5000/teams/${team}`);

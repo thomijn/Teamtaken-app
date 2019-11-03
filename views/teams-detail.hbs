@@ -28,7 +28,7 @@
                             {{#each team.members}}
                             <li class="list-group-item">
                                 <div class="row align-items-center">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-5">
                                         {{this.firstname}} {{this.lastname}}
                                         {{#ifCond this.role "team-captain"}}
                                         <span data-toggle="tooltip" data-placement="top" title="Team aanvoerder"
@@ -38,14 +38,18 @@
                                         </span>
                                         {{/ifCond}}
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-7">
                                         <button type="button" class="btn btn-dark" data-toggle="modal"
                                             data-target="#editModal" data-user-id={{this._id}}>
-                                            Edit
+                                            Team
+                                        </button>
+                                        <button type="button" data-toggle="modal" data-target="#editRoleModal"
+                                            data-user-id={{this._id}} class="btn btn-dark">
+                                            <span class="fal fa-edit fa-lg">
                                         </button>
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
                                             data-target="#deleteModal" data-user-id={{this._id}}>
-                                            Delete
+                                            <span class="fal fa-trash fa-lg">
                                         </button>
                                     </div>
                                 </div>
@@ -147,3 +151,5 @@
 {{>add-team-modal}}
 
 {{> delete-task-modal}}
+
+{{> change-role-modal}}

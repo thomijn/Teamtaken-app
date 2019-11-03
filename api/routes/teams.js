@@ -2,15 +2,17 @@ const router = require("express").Router();
 const TeamController = require("../controllers/teams")
 const { ensureAuthenticated } = require('../middleware/verify')
 const checkCaptain = require("../middleware/roleCheck")
+const checkAdmin = require("../middleware/checkAdmin")
+
 
 // all teams for admin
-router.get("/", [ensureAuthenticated], TeamController.team)
+router.get("/", [ensureAuthenticated, checkAdmin], TeamController.team)
 
 // user team
 router.get("/team", [ensureAuthenticated, checkCaptain], TeamController.my_team)
 
 //get specific team
-router.get("/:_id", [ensureAuthenticated, checkCaptain], TeamController.get_a_team)
+router.get("/:_id", [ensureAuthenticated, checkCaptain, checkAdmin], TeamController.get_a_team)
 
 // add team
 router.post("/add", [ensureAuthenticated, checkCaptain], TeamController.add_a_team)

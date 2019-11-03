@@ -97,11 +97,12 @@
                                 <div class="col-sm-6">
                                     <form action="/tasks/edit-done" method="post">
                                         <div class="custom-control custom-switch">
+                                            {{#if ../oldUser}}
                                             <input type="checkbox" class="toggle-done" name="done" data-on="Voltooid"
                                                 data-off="Niet voltooid" data-onstyle="success"
                                                 data-role={{../user.role}} data-team={{../user.team}} {{#if this.done }}
                                                 checked {{/if}} data-toggle="toggle" value={{this._id}}>
-                                            {{#if ../teamCaptain}}
+                                            {{/if}} {{#if ../teamCaptain}}
                                             <a style="text-decoration: none;" href="/tasks/edit-task/{{this._id}}">
                                                 <button type="button" class="btn btn-dark">
                                                     <span class="fal fa-edit fa-lg">

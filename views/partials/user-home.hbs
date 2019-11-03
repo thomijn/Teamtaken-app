@@ -1,3 +1,4 @@
+{{#if team}}
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link active" href="/home">Dashboard</a>
@@ -14,6 +15,7 @@
     </li>
     {{/if}}
 </ul>
+{{/if}}
 
 {{#if team}}
 <div class="jumbotron">
@@ -34,11 +36,12 @@
         <h1 class="display-3">De TeamTaken app</h1>
         <p class="lead">Een simpele plek om al je team taken te managen</p>
         <hr class="my-4">
-        <p class="lead">Helaas, je bent nog niet toegevoegd aan een team! <i class="fal fa-frown" /></p>
+        <p class="lead">Helaas, je bent nog niet toegevoegd aan een team! <span class="fal fa-frown" /></p>
     </div>
 </div>
 {{/if}}
 
+{{#if team}}
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
@@ -115,3 +118,4 @@
     </div>
 </div>
 </div>
+{{/if}}

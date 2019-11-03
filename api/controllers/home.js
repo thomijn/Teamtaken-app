@@ -24,7 +24,7 @@ exports.get_home = async (req, res) => {
                                 })
                             })
                     })
-            } else {
+            } else if (user.team) {
                 Team.findById(user.team).populate('members')
                     .then((team) => {
                         Task.find({ team: team._id, executors: { $all: [req.session.passport.user] } }).sort({ date: 1 })
@@ -50,7 +50,19 @@ exports.get_home = async (req, res) => {
                                 }
                             })
                     })
+            } else {
+                res.render("home", {
+                    user: user,
+                    admin: false,
+                    teamCaptain: res.locals.captain,
+                })
             }
         })
-        .catch((err) => res.status(400))
+        .catch(err => {
+            req.flash(
+                'error_msg',
+                ' Oeps er is iets verkeerd gegaan :('
+            );
+            res.redirect('/');
+        })
 }

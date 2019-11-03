@@ -114,3 +114,21 @@ exports.edit_my_profile = (req, res) => {
     }
   }
 }
+
+exports.edit_user = (req, res) => {
+  User.findByIdAndUpdate(req.body.userId, { role: req.body.role })
+    .then((user) => {
+      req.flash(
+        'success_msg',
+        'Zijn rol is aangepast'
+      );
+      res.redirect('/home')
+    })
+    .catch((err) => {
+      req.flash(
+        'error_msg',
+        'Oeps er is iets verkeerd gegaan'
+      );
+      res.status(400).redirect('/home')
+    })
+}

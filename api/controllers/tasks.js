@@ -57,7 +57,6 @@ exports.add_a_task = (req, res) => {
                 res.redirect('/tasks/add-a-task');
             })
             .catch(err => {
-                console.log(err)
                 req.flash(
                     'error_msg',
                     ' Oeps er is iets verkeerd gegaan :('
